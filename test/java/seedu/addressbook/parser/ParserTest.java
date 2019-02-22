@@ -112,29 +112,6 @@ public class ParserTest {
         assertEquals(result.getTargetIndex(), testIndex);
     }
 
-    @Test
-    public void viewAllCommand_noArgs() {
-        final String[] inputs = { "viewall", "viewall " };
-        final String resultMessage =
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAllCommand.MESSAGE_USAGE);
-        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
-    }
-
-    @Test
-    public void viewAllCommand_argsIsNotSingleNumber() {
-        final String[] inputs = { "viewall notAnumber ", "viewall 8*wh12", "viewall 1 2 3 4 5" };
-        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAllCommand.MESSAGE_USAGE);
-        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
-    }
-
-    @Test
-    public void viewAllCommand_numericArg_indexParsedCorrectly() {
-        final int testIndex = 3;
-        final String input = "viewall " + testIndex;
-        final ViewAllCommand result = parseAndAssertCommandType(input, ViewAllCommand.class);
-        assertEquals(result.getTargetIndex(), testIndex);
-    }
-
     /**
      * Test find persons by keyword in name command
      */
@@ -249,9 +226,9 @@ public class ParserTest {
         try {
             return new Person(
                 new Name(Name.EXAMPLE),
-                new Phone(Phone.EXAMPLE, true),
-                new Email(Email.EXAMPLE, false),
-                new Address(Address.EXAMPLE, true),
+                new Phone(Phone.EXAMPLE),
+                new Email(Email.EXAMPLE),
+                new Address(Address.EXAMPLE),
                 new HashSet<>(Arrays.asList(new Tag("tag1"), new Tag("tag2"), new Tag("tag3")))
             );
         } catch (IllegalValueException ive) {
@@ -262,9 +239,9 @@ public class ParserTest {
     private static String convertPersonToAddCommandString(ReadOnlyPerson person) {
         String addCommand = "add "
                 + person.getName().fullName
-                + (person.getPhone().isPrivate() ? " pp/" : " p/") + person.getPhone().value
-                + (person.getEmail().isPrivate() ? " pe/" : " e/") + person.getEmail().value
-                + (person.getAddress().isPrivate() ? " pa/" : " a/") + person.getAddress().value;
+                + " p/" + person.getPhone().value
+                + " e/" + person.getEmail().value
+                + " a/" + person.getAddress().value;
         for (Tag tag : person.getTags()) {
             addCommand += " t/" + tag.tagName;
         }

@@ -21,8 +21,6 @@ public class AdaptedPerson {
     private static class AdaptedContactDetail {
         @XmlValue
         public String value;
-        @XmlAttribute(required = true)
-        public boolean isPrivate;
     }
 
     @XmlElement(required = true)
@@ -52,15 +50,12 @@ public class AdaptedPerson {
         name = source.getName().fullName;
 
         phone = new AdaptedContactDetail();
-        phone.isPrivate = source.getPhone().isPrivate();
         phone.value = source.getPhone().value;
 
         email = new AdaptedContactDetail();
-        email.isPrivate = source.getEmail().isPrivate();
         email.value = source.getEmail().value;
 
         address = new AdaptedContactDetail();
-        address.isPrivate = source.getAddress().isPrivate();
         address.value = source.getAddress().value;
 
         tagged = new ArrayList<>();
@@ -99,9 +94,9 @@ public class AdaptedPerson {
             tags.add(tag.toModelType());
         }
         final Name name = new Name(this.name);
-        final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
-        final Email email = new Email(this.email.value, this.email.isPrivate);
-        final Address address = new Address(this.address.value, this.address.isPrivate);
+        final Phone phone = new Phone(this.phone.value);
+        final Email email = new Email(this.email.value);
+        final Address address = new Address(this.address.value);
         return new Person(name, phone, email, address, tags);
     }
 }

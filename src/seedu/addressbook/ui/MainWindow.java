@@ -94,7 +94,6 @@ public class MainWindow {
 
     /**
      * Displays the list of persons in the output display area, formatted as an indexed list.
-     * Private contact details are hidden.
      */
     private void display(List<? extends ReadOnlyPerson> persons) {
         display(new Formatter().format(persons));
